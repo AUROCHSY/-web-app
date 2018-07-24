@@ -1,0 +1,569 @@
+<!DOCTYPE html>
+<html ng-app="app">
+	<head>
+		<meta charset="utf-8">
+		<meta name="viewport" content="width=device-width,initial-scale=1,user-scalable=no,minimal-ui">
+		<meta name="format-detection" content="telephone=no"><!--设置电话号码不高亮显示-->
+		<link rel="stylesheet" href="css/reset.css">
+		<style type="text/css">
+			
+			html {
+				width:100%;
+				height:100%;
+				overflow-x:hidden;
+			}
+			
+			body {
+				text-align:left;
+				width:100%;
+				overflow:hidden;
+				background:#e9dfc7;
+			}
+			
+			.fiction_main {
+				font-size:14px;
+				color:#555;
+				line-height:31px;
+				padding:15px;
+			}
+			
+			.fiction_main h4{
+				font-size:20px;
+				color:#736357;
+				border-bottom:solid 1px #736357;
+				letter-spacing:2px;
+				margin:0 0 1em 0;
+				<!--letter-spacing是字间距-->
+				<!--也可以用Marin-bottom,但这样更容易维护-->
+			}
+			
+			.fiction_main p{
+				text-indent:2em;
+				margin：0.5em 0;
+				letter-spacing:0px;
+				line-height:24px;
+			}
+			
+			.u-tab {
+				height:34px;
+				line-height:34px;
+				margin:10px auto;
+				border:1px solid #858382;
+				font-size:12px;
+				border-radius:8px;
+				background:#000;
+				opacity:0.9;
+			}
+			
+			.u-tab li {
+				display:inline-block;
+				width:49%;
+				border-right:1px solid #858382;
+				text-align:center;
+				color:#fff;
+				
+			}
+			
+			.u-tab li:nth-child(2){
+				border-right:none;
+			}
+			
+			.m-button-bar {
+				width:70%;
+				max-width:800px;
+				padding:5px;
+				margin:0 auto;
+			}
+			
+			.top_nav {
+				position:fixed;
+				top:0px;
+				height:50px;
+				width:100%;
+				z-index:9999;
+				background:#000;
+			}
+			
+			.nav_icon {
+				position:absolute;
+				top:14px;
+				left:10px;
+				width:23px;
+				height:23px;
+				background: url(data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAFAAAABQCAYAAACOEfKtAAAAGXRFWHRTb2Z0d2FyZQBBZG9iZSBJbWFnZVJlYWR5ccllPAAAAyNpVFh0WE1MOmNvbS5hZG9iZS54bXAAAAAAADw/eHBhY2tldCBiZWdpbj0i77u/IiBpZD0iVzVNME1wQ2VoaUh6cmVTek5UY3prYzlkIj8+IDx4OnhtcG1ldGEgeG1sbnM6eD0iYWRvYmU6bnM6bWV0YS8iIHg6eG1wdGs9IkFkb2JlIFhNUCBDb3JlIDUuNS1jMDE0IDc5LjE1MTQ4MSwgMjAxMy8wMy8xMy0xMjowOToxNSAgICAgICAgIj4gPHJkZjpSREYgeG1sbnM6cmRmPSJodHRwOi8vd3d3LnczLm9yZy8xOTk5LzAyLzIyLXJkZi1zeW50YXgtbnMjIj4gPHJkZjpEZXNjcmlwdGlvbiByZGY6YWJvdXQ9IiIgeG1sbnM6eG1wPSJodHRwOi8vbnMuYWRvYmUuY29tL3hhcC8xLjAvIiB4bWxuczp4bXBNTT0iaHR0cDovL25zLmFkb2JlLmNvbS94YXAvMS4wL21tLyIgeG1sbnM6c3RSZWY9Imh0dHA6Ly9ucy5hZG9iZS5jb20veGFwLzEuMC9zVHlwZS9SZXNvdXJjZVJlZiMiIHhtcDpDcmVhdG9yVG9vbD0iQWRvYmUgUGhvdG9zaG9wIENDIChNYWNpbnRvc2gpIiB4bXBNTTpJbnN0YW5jZUlEPSJ4bXAuaWlkOkJGMkEyQkQxMjdBNDExRTU4NjA2QTJDMjFDQ0I0ODhEIiB4bXBNTTpEb2N1bWVudElEPSJ4bXAuZGlkOkJGMkEyQkQyMjdBNDExRTU4NjA2QTJDMjFDQ0I0ODhEIj4gPHhtcE1NOkRlcml2ZWRGcm9tIHN0UmVmOmluc3RhbmNlSUQ9InhtcC5paWQ6QkYyQTJCQ0YyN0E0MTFFNTg2MDZBMkMyMUNDQjQ4OEQiIHN0UmVmOmRvY3VtZW50SUQ9InhtcC5kaWQ6QkYyQTJCRDAyN0E0MTFFNTg2MDZBMkMyMUNDQjQ4OEQiLz4gPC9yZGY6RGVzY3JpcHRpb24+IDwvcmRmOlJERj4gPC94OnhtcG1ldGE+IDw/eHBhY2tldCBlbmQ9InIiPz4Ia560AAAHWklEQVR42uyd7W9U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
+				);
+				background-size:contain;
+				<!--background的base64图片大小不一定跟设定的容器大小相等，
+				所以要设置bakcground-size为contain-->
+				<!--其它方法设置图标的方法还有用字体、用CSS样式实现等-->
+				<!--absolute定位是相对fixed了的父元素来说的，这样就不会随body元素滑动而滑动了-->
+
+			}
+			
+			.nav_title {
+				position:absolute;
+				top:16px;
+				left:42px;
+				color:#d5d5d6;
+				
+			}
+			
+			.bottom_nav {
+				position:fixed;
+				bottom:0px;
+				width:100%;
+				height:80px;
+				z-index:9999;
+				background:#000;
+				opacity:0.8;
+				<!--下边栏样式-->
+			}
+			
+			.bottom_nav_icon{
+				position:absolute;
+				top:14px;
+				width:23px;
+				height:23px;
+				
+			}
+			.bottom_nav_title{
+				position:absolute;
+				top:42px;
+				color:#d5d5d6;
+				
+			}
+			
+			.dialog_icon{
+				background:url(data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAADUAAAAoCAYAAABerrI1AAAAGXRFWHRTb2Z0d2FyZQBBZG9iZSBJbWFnZVJlYWR5ccllPAAAAyNpVFh0WE1MOmNvbS5hZG9iZS54bXAAAAAAADw/eHBhY2tldCBiZWdpbj0i77u/IiBpZD0iVzVNME1wQ2VoaUh6cmVTek5UY3prYzlkIj8+IDx4OnhtcG1ldGEgeG1sbnM6eD0iYWRvYmU6bnM6bWV0YS8iIHg6eG1wdGs9IkFkb2JlIFhNUCBDb3JlIDUuNS1jMDE0IDc5LjE1MTQ4MSwgMjAxMy8wMy8xMy0xMjowOToxNSAgICAgICAgIj4gPHJkZjpSREYgeG1sbnM6cmRmPSJodHRwOi8vd3d3LnczLm9yZy8xOTk5LzAyLzIyLXJkZi1zeW50YXgtbnMjIj4gPHJkZjpEZXNjcmlwdGlvbiByZGY6YWJvdXQ9IiIgeG1sbnM6eG1wPSJodHRwOi8vbnMuYWRvYmUuY29tL3hhcC8xLjAvIiB4bWxuczp4bXBNTT0iaHR0cDovL25zLmFkb2JlLmNvbS94YXAvMS4wL21tLyIgeG1sbnM6c3RSZWY9Imh0dHA6Ly9ucy5hZG9iZS5jb20veGFwLzEuMC9zVHlwZS9SZXNvdXJjZVJlZiMiIHhtcDpDcmVhdG9yVG9vbD0iQWRvYmUgUGhvdG9zaG9wIENDIChNYWNpbnRvc2gpIiB4bXBNTTpJbnN0YW5jZUlEPSJ4bXAuaWlkOkNFN0E3M0IwMjc4NDExRTU5RkYxQjg1Rjk2QkEyNzBEIiB4bXBNTTpEb2N1bWVudElEPSJ4bXAuZGlkOkNFN0E3M0IxMjc4NDExRTU5RkYxQjg1Rjk2QkEyNzBEIj4gPHhtcE1NOkRlcml2ZWRGcm9tIHN0UmVmOmluc3RhbmNlSUQ9InhtcC5paWQ6N0M1ODVCRkYyNzg0MTFFNTlGRjFCODVGOTZCQTI3MEQiIHN0UmVmOmRvY3VtZW50SUQ9InhtcC5kaWQ6N0M1ODVDMDAyNzg0MTFFNTlGRjFCODVGOTZCQTI3MEQiLz4gPC9yZGY6RGVzY3JpcHRpb24+IDwvcmRmOlJERj4gPC94OnhtcG1ldGE+IDw/eHBhY2tldCBlbmQ9InIiPz5uTX6PAAAA0UlEQVR42uyXsQrCMBRFX4p0V39Pv8FJcekHFJe6d+v3NY6CDvUFooQ0AcEllnPhlgz3QU6bBq6ZnvdaRC7qndqoB/VR/ZC5wuxGytLtvXejUJ0uDlGgVZ8Tg6lsaWod1Jh461a9TQyMBX6hWLaSBary5zBWn8kPf8DUr/Rx8hfEPth4kxkIs+tCL4rG/VOLPH5AAQUUUEABBRRQv0O54nf1tcL6dZ3Jh9mpMH/2TkmkJFISKYmURKCAAgoooIACCihKIiWRkkhJpCR+XxJfAgwA/ROhOlYvoWQAAAAASUVORK5CYII=
+);				
+				background-size:contain;
+				left:20%;
+			}
+			.font_icon{
+				background:url(data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAEYAAAAuCAYAAACViW+zAAAAGXRFWHRTb2Z0d2FyZQBBZG9iZSBJbWFnZVJlYWR5ccllPAAAAyNpVFh0WE1MOmNvbS5hZG9iZS54bXAAAAAAADw/eHBhY2tldCBiZWdpbj0i77u/IiBpZD0iVzVNME1wQ2VoaUh6cmVTek5UY3prYzlkIj8+IDx4OnhtcG1ldGEgeG1sbnM6eD0iYWRvYmU6bnM6bWV0YS8iIHg6eG1wdGs9IkFkb2JlIFhNUCBDb3JlIDUuNS1jMDE0IDc5LjE1MTQ4MSwgMjAxMy8wMy8xMy0xMjowOToxNSAgICAgICAgIj4gPHJkZjpSREYgeG1sbnM6cmRmPSJodHRwOi8vd3d3LnczLm9yZy8xOTk5LzAyLzIyLXJkZi1zeW50YXgtbnMjIj4gPHJkZjpEZXNjcmlwdGlvbiByZGY6YWJvdXQ9IiIgeG1sbnM6eG1wPSJodHRwOi8vbnMuYWRvYmUuY29tL3hhcC8xLjAvIiB4bWxuczp4bXBNTT0iaHR0cDovL25zLmFkb2JlLmNvbS94YXAvMS4wL21tLyIgeG1sbnM6c3RSZWY9Imh0dHA6Ly9ucy5hZG9iZS5jb20veGFwLzEuMC9zVHlwZS9SZXNvdXJjZVJlZiMiIHhtcDpDcmVhdG9yVG9vbD0iQWRvYmUgUGhvdG9zaG9wIENDIChNYWNpbnRvc2gpIiB4bXBNTTpJbnN0YW5jZUlEPSJ4bXAuaWlkOjBCRTkzQUQ3Mjc4NzExRTU5RkYxQjg1Rjk2QkEyNzBEIiB4bXBNTTpEb2N1bWVudElEPSJ4bXAuZGlkOjBCRTkzQUQ4Mjc4NzExRTU5RkYxQjg1Rjk2QkEyNzBEIj4gPHhtcE1NOkRlcml2ZWRGcm9tIHN0UmVmOmluc3RhbmNlSUQ9InhtcC5paWQ6Q0U3QTczQkEyNzg0MTFFNTlGRjFCODVGOTZCQTI3MEQiIHN0UmVmOmRvY3VtZW50SUQ9InhtcC5kaWQ6MEJFOTNBRDYyNzg3MTFFNTlGRjFCODVGOTZCQTI3MEQiLz4gPC9yZGY6RGVzY3JpcHRpb24+IDwvcmRmOlJERj4gPC94OnhtcG1ldGE+IDw/eHBhY2tldCBlbmQ9InIiPz6/hjRDAAAFqklEQVR42uRaaWwVVRi9fTbYqoBoEGIVrDsBA6JRAY0VSkQUl7pQI8YQGjTRaNCgBtdoApho3aoRRJaIC25/VBTBCiqCuKX+QDFqFANRsRCtsRWr9XzxNBnu++6bO/fNe9i+k5y0c2fmzrwz3/22mbKuv9pNChgCLgLHgBvABnCr6Qkor1CHy1ISZjVYG9leC55V6sLsB/4ucynj7T1VmEwKU09VRBHUmx6MNIS5JuF4SQhzIniKY5+MjypVYa4OtKb/PfJxvn3B7eABOY4Rp3wo2FZKzndajCiG+68otaWkLaP23rKcQoWRDHekMj5DGZPjTisVYWYqY+vB5/g3qZPuFcIMYFJn4wnrr50EDujtwlwFVlpjreBL/P9lbkdRyfMKBcmn7gRfAbeAO8G/wS7yT3Ab+AHYBF4I7ptmuJbUfzN4vDXeCN4U2X4AvNE65gtwOG80rYc6ndcdFnD+DnAe+ChCdme+wpzJyjmKLgr1VWTsOAph11A14LoURBkKrgBPTWGu98CLIE5rPktJC73NliiG5vxOgUK3WN3GlEQRnAG+Zjo7+oQKMxCsU8YXOI7XnHAd5wnFQeAb4GBl37fgXeDp4CGS09Jiy+hPxMoud0RNSSduDV1Kt4DzrbEfecHdyvHyBKSLN8galxu4L1CYp5lxRyGO9WbwcbDT00/OtYVg2VKFJdWWxGIyjtxliUMUw/HFjhwoJBqOVMoLuca54COeonT7xDmMUHbtV5d0KU0Ej7TG/gEXxpy3kMdFIfPUBghzneLMJUS/HTCXiPOYMl6bVBgtc30T/C7mPNm/KgUnvA94iTX2Cy0lFO87rNJbmCpwiqdz9XXCUzivLyqZK21g4tadSObTU96q5FSHJxFmBj18FD8wOvhgJY/fowviKDhz9XXuBccy4kg/eWkKofo3a/tAX2HkBzQo44sSODs57illvEER3Ac7mdxtTEGY/UNrpXOi5hXzQ3NBE1LmnbyXasSTafHlocJoTvJVFmRJsI3n7a12xCD6tfnM0j8CJ4UWkUeA3yjinQ2+FXBzkxS/JKH8KI/o5oP+4LHgMWA177+a20O8ZymvKDMxa9yViK1Kue0xkwlXyLmy1M/jw6pO08RcFiPp/PeOmiRt5CorcvWEbgePDrzmbpYld7gsxiXMpeALRXSGl4Evei6XpWw0JcEf7CN9Bn4Ivs4H0pVUmDXghCIK0+xxvT70UeMd+yXx+5RhfDOrbXH68u5rV47SwFsYcWBfFrDJVKP0arRmlw2tKyj4GnwYfJY5TtKaSRUm4wihtigi1LspWcc6zme3AnKFbnGs1yo/ai4bV00BogyM8+xRVBi9ab3ApNer7XI0t7Qmezemm+zm9f3gbQmddhQnJBFGKtiDrTFZa8tS9inLlAJQrnux4/gJSu10T573MD6JMFqmuyKH8wrFLkfUc7Ujhlvbn1Cc4DTF6O/GVGFGgOMczaZCQFtO4xQTzzBM21acD+rjcqBMzNNqYQ+kEJB5P/eon6RssD8jGWb0z9t8cBj4oE9aLZDPNaZ5PtU0oTWxtM9LWqxtyZTPD7ievO9abbIb9JHeQUcmKsxUxVxlDS8vsDDLFV/R32R/2LhSOfdJ4/8VhfRdZoEfmz3fomoRbXBUGG0ZPWMK/yVUGxOzuOW0mGm9nYes531eQCvqXl7lrNrr2QuSNmajZYm/gjco1x7RnfkOdZT9o1lbFBqjGWW0pC56X9czw42DtCv7xvig7VyKP5vsL9gfQvY7Syymw2S/4thUJFEM65tNisO1I4+8EZjnkWj2ixFFLHQUH4b0ordY+6+En+knwvzElDoaCmeb4mK2JUQT78vGHPZeWhLOL3M/D55k/ntptyOy724l0WyMFpE1jO3NrEyLDVk6E1lIrvU4fgxFGkv/UsWSQnxHK5dhC/3QGqe/dHy1+a8AAwCKR08FSRIHxQAAAABJRU5ErkJggg==
+);				
+				width:23px; 
+				height:15.76px;
+				background-size:contain;
+				left:50%;
+			}
+			.night_icon{
+				background:url(data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAADAAAAAwCAYAAABXAvmHAAAAGXRFWHRTb2Z0d2FyZQBBZG9iZSBJbWFnZVJlYWR5ccllPAAAAyNpVFh0WE1MOmNvbS5hZG9iZS54bXAAAAAAADw/eHBhY2tldCBiZWdpbj0i77u/IiBpZD0iVzVNME1wQ2VoaUh6cmVTek5UY3prYzlkIj8+IDx4OnhtcG1ldGEgeG1sbnM6eD0iYWRvYmU6bnM6bWV0YS8iIHg6eG1wdGs9IkFkb2JlIFhNUCBDb3JlIDUuNS1jMDE0IDc5LjE1MTQ4MSwgMjAxMy8wMy8xMy0xMjowOToxNSAgICAgICAgIj4gPHJkZjpSREYgeG1sbnM6cmRmPSJodHRwOi8vd3d3LnczLm9yZy8xOTk5LzAyLzIyLXJkZi1zeW50YXgtbnMjIj4gPHJkZjpEZXNjcmlwdGlvbiByZGY6YWJvdXQ9IiIgeG1sbnM6eG1wPSJodHRwOi8vbnMuYWRvYmUuY29tL3hhcC8xLjAvIiB4bWxuczp4bXBNTT0iaHR0cDovL25zLmFkb2JlLmNvbS94YXAvMS4wL21tLyIgeG1sbnM6c3RSZWY9Imh0dHA6Ly9ucy5hZG9iZS5jb20veGFwLzEuMC9zVHlwZS9SZXNvdXJjZVJlZiMiIHhtcDpDcmVhdG9yVG9vbD0iQWRvYmUgUGhvdG9zaG9wIENDIChNYWNpbnRvc2gpIiB4bXBNTTpJbnN0YW5jZUlEPSJ4bXAuaWlkOkU2OUYzRUEwMjc4NzExRTU5RkYxQjg1Rjk2QkEyNzBEIiB4bXBNTTpEb2N1bWVudElEPSJ4bXAuZGlkOjhBMzA2RjA2Mjc4QTExRTU5RkYxQjg1Rjk2QkEyNzBEIj4gPHhtcE1NOkRlcml2ZWRGcm9tIHN0UmVmOmluc3RhbmNlSUQ9InhtcC5paWQ6RTY5RjNFOUUyNzg3MTFFNTlGRjFCODVGOTZCQTI3MEQiIHN0UmVmOmRvY3VtZW50SUQ9InhtcC5kaWQ6RTY5RjNFOUYyNzg3MTFFNTlGRjFCODVGOTZCQTI3MEQiLz4gPC9yZGY6RGVzY3JpcHRpb24+IDwvcmRmOlJERj4gPC94OnhtcG1ldGE+IDw/eHBhY2tldCBlbmQ9InIiPz4v5YACAAAC/UlEQVR42tSaXYhNURTH97kzRnJ9ZTQzPh7IMEr5yshHEwkRkSeSjweEiMjDePTkhcKLPCApUV54GxTKcDM0JfL9QE0UGdcdEmb7L3edOq5zzz1nn332Pvdfv5e5Z9Zd666711577etIKYUGjQILwRwwDOwDfcKAamP873CwBawDrcABP8ACU87/FWUgIk3gKMjL/7VfwV4sojxcCw6AL9JfD0DGdABhv0KTwAUwO+CZvaBfGFaYAJaDyyAb8Mwt0CksKFPh9W3gWgXnSSeFJTkBZXQrOM3VJUi9oJErUGoysBKcCuE86YYt58sF0MILtiakjTvCojI+i/o876Zh9ThNARysUCr99NpmAN5FTAvxBRgS0QZlK5+GDLQrOC9sOu/NADVm70LU+9RmYJOi8yLigk8sgPUxbEy0HUATH0RUNdV2AG0hd9xyarMdwNyYNhaDOpsBTI5pYwRYYTMAHYtwh80ARmqws1ShBdEWwGAdGyI4HrMYKAegawFSMdhlo5XIK/ZAfvoO5oFukxn4oNHeID5DjzUZwCvNNsn5DjDOVADPErA7BdwF0xP2v4YCyCVknDJwjxe2k8AHT4O0VTSeawD9Mll1glZN48T5IMc+N7p/7JJm1AFWg4ERna4Da8F1j62cdzZKY5RZBtbcEuYzuAlugyfgOSjwyS7LJ8QJYJoojuuX+RycLnqPlPXgLZfBalCB11iveyL7CM6K6tEZURxp/jNWGc2pzFbBp98M3peOVXrA4Sr49I+4zpdmgDSA94UZKXX+ITeNP8sFIDg9XWBoypyni0O6THzqN1bx6iXYCH6nyHnyZXOp8+UCIF0Fe1LiPH1FdoMr/q8G74DbwS9pT/TeO+Nes64JuFpNUl+5fdByT9wMHhl0vhu06L7opobqEPiWoON9oJ0v1bXf1LuMAcdAQbPjJ6g9juqPE+PXKvVcbjeAmQqHFsmb5iVwzu1tVKYSOkpdA1jEU246To4XxZ/gZLlUU5v8CbzhI+x9bqV74r7xHwEGAPDRVwnecW5KAAAAAElFTkSuQmCC
+);
+				background-size:contain;
+				left:80%;
+			}
+			
+			.dialog_title{
+				left:20%;
+			}
+			.font_title{
+				left:50%;
+			}
+			.night_title{
+				left:80%;
+			}
+			
+			.nav_panel_bk {
+				position:fixed;
+				bottom:80px;
+				height:135px;
+				width:100%;
+				background:#000;
+				opacity:0.8;
+				z-index:10000;
+			}
+			
+			
+			
+			.nav_panel {
+				position:fixed;
+				bottom:80px;
+				height:135px;
+				width:100%;
+				color:#fff;
+				z-index:10001;
+			<!--下边栏控制面板样式-->	
+			}
+			
+			.child_mod {
+				padding:5px 10px;
+				margin:15px;
+			}
+			
+			.child_mod span {
+				display:inline-block;
+				padding-left:10px;
+				padding-right:20px;
+				<!--vertical-align该属性定义行内元素的基线相对于该元素所在行的基线的垂直对齐。
+				允许指定负长度值和百分比值。这会使元素降低而不是升高。
+				在表单元格中，这个属性会设置单元格框中的单元格内容的对齐方式。-->
+			}
+			
+			.font_size_button {
+				background:none;
+				border:1px solid #8c8c8c;
+				border-radius:16px;
+				color:#fff;
+				padding:5px 40px;
+				
+				<!--background把按钮的白色方块背景去掉了-->
+			}
+			
+			.child_mod button:nth-child(2) {
+				margin-right:10px;
+				
+			}
+			
+			.bk_container {
+				position:relative;
+				margin-right:10px;
+				width:30px;
+				height:30px;
+				border-radius:50%;
+				display:inline-block;
+				vertical-align:-14px;
+			<!--颜色选择按钮的样式-->
+			}
+			
+			.bk_container_current {
+
+				position:absolute;
+				width:32px;
+				height:32px;
+				border-radius:50%;
+				border:1px solid #ff7800;
+				display:inline-block;
+				left:-2px;
+				top:-2px;
+				<!--被选中后出现的边框-->
+			}
+			
+			#white_button {
+				background:#fff;
+			}
+			
+			#yellow_button {
+				background:rgb(214,201,176);
+			}
+			
+			#gray_button {
+				background:rgb(151,149,149);
+			}
+			
+			#green_button {
+				background:rgb(178,212,186);
+			}
+			
+			#dark_button {
+				background:rgb(29,47,63);
+			}
+			
+			.artical_action_mid {
+				position:fixed;
+				z-index:10002;
+				width:100%;
+				height:40%;
+				top:30%;
+			}
+			
+		</style>
+	</head>
+	<body>
+		<div id="root" class="container">
+		
+			<!--上下导航栏-->
+			<!--因为是脱离文档流的组件，所以书写代码的位置比较随意-->
+			<div id="top_nav" class="top_nav" style="display:none">
+				<div class="nav_icon"></div>
+				<div class="nav_title" id="nav_title">返回书架</div>
+			</div>
+			<div id="bottom_nav" class="bottom_nav" style="display:none">
+				<div class="dialog_icon bottom_nav_icon"></div>
+				<div class="dialog_title bottom_nav_title">目录</div>
+				<div class="font_icon bottom_nav_icon js_font_button"></div>
+				<div class="font_title bottom_nav_title js_font_button">字体</div>
+				<div class="night_icon bottom_nav_icon js_night_button"></div>
+				<div class="night_title bottom_nav_title js_night_button">夜间</div>
+			</div>
+			
+			<!--底部操作面板-->
+			<!--之所以这里背景面板分两块了，是因为一块用以存放容器的背景，一块用来存放文章主体的背景?-->
+			<div class="nav_panel_bk font_container" style="display:none"></div>
+			<div class="nav_panel font_container" id="font_container" style="display:none" >
+				<div class="child_mod">
+					<span>字号</span>
+					<button id="large_font" class="font_size_button">大</button>
+					<button id="small_font" class="font_size_button">小</button>
+				</div>
+				<div class="child_mod">
+					
+					<span>背景</span>
+					<div class="bk_container" id="white_button">
+						<button class="bk_container_current"></button><!--选中时的外圈-->
+					</div>
+					<div class="bk_container" id="yellow_button"></div>
+					<div class="bk_container" id="gray_button"></div>
+					<div class="bk_container" id="green_button"></div>
+					<div class="bk_container" id="dark_button"></div>
+				</div>
+			</div>
+			<!--中间的透明点击层-->
+			<!--外面多加了一层容器是为了以后可能的添加点击区域(比如点击下面区域翻页等)-->
+			<div class="m_artical_action">
+				<div class="artical_action_mid" id="action_mid"></div>
+			</div>
+			<div id="fiction_main" class="fiction_main">
+				<h4>这是章节标题</h4>
+				<p>这是小说内容这是小说内容这是小说内容这是小说内容
+				这是小说内容这是小说内容这是小说内容这是小说内容
+				这是小说内容这是小说内容这是小说内容这是小说内容
+				这是小说内容这是小说内容这是小说内容这是小说内容
+				这是小说内容这是小说内容这是小说内容这是小说内容
+				</p>
+				<p>这是小说内容这是小说内容这是小说内容这是小说内容
+				这是小说内容这是小说内容这是小说内容这是小说内容
+				这是小说内容这是小说内容这是小说内容这是小说内容
+				这是小说内容这是小说内容这是小说内容这是小说内容
+				这是小说内容这是小说内容这是小说内容这是小说内容
+				</p>
+				<p>混响时间从冏茶水间从i啊几次哦静安寺哦
+				下属传教士剪草机从送i
+				撒初次哦啊十几次哦啊技术才是参加哦i啊
+				擦拭超长焦距走i几下就从i啊就送刺激哦
+				这是小说内容这是小说内容这是小说内容这是小说内容
+				这是小说内容这是小说内容这是小说内容这是小说内容
+				这是小说内容这是小说内容这是小说内容这是小说内容
+				这是小说内容这是小说内容这是小说内容这是小说内容
+				这是小说内容这是小说内容这是小说内容这是小说内容
+				这是小说内容这是小说内容这是小说内容这是小说内容
+				</p>
+				<p>
+				下属传教士剪草机从送i
+				撒初次哦啊十几次哦啊技术才是参加哦i啊
+				擦拭超长焦距走i几下就从i啊就送刺激哦
+				这是小说内容这是小说内容这是小说内容这是小说内容
+				这是小说内容这是小说内容这是小说内容这是小说内容
+				这是小说内容这是小说内容这是小说内容这是小说内容
+				这是小说内容这是小说内容这是小说内容这是小说内容
+				这是小说内容这是小说内容这是小说内容这是小说内容
+				这是小说内容这是小说内容这是小说内容这是小说内容
+				下属传教士剪草机从送i
+				撒初次哦啊十几次哦啊技术才是参加哦i啊
+				擦拭超长焦距走i几下就从i啊就送刺激哦
+				这是小说内容这是小说内容这是小说内容这是小说内容
+				这是小说内容这是小说内容这是小说内容这是小说内容
+				这是小说内容这是小说内容这是小说内容这是小说内容
+				这是小说内容这是小说内容这是小说内容这是小说内容
+				这是小说内容这是小说内容这是小说内容这是小说内容
+				这是小说内容这是小说内容这是小说内容这是小说内容
+				下属传教士剪草机从送i
+				撒初次哦啊十几次哦啊技术才是参加哦i啊
+				擦拭超长焦距走i几下就从i啊就送刺激哦
+				这是小说内容这是小说内容这是小说内容这是小说内容
+				这是小说内容这是小说内容这是小说内容这是小说内容
+				这是小说内容这是小说内容这是小说内容这是小说内容
+				这是小说内容这是小说内容这是小说内容这是小说内容
+				这是小说内容这是小说内容这是小说内容这是小说内容
+				这是小说内容这是小说内容这是小说内容这是小说内容
+				</p>
+			</div>
+			<div id="bottom_button" class="m-button-bar">
+			<ul class="u-tab">
+				<li id="prev_button">上一章</li>
+				<li id="next_button">下一章</li><!--因为这里一般会有多行按钮，所以用-->
+			</div>
+		</div>
+			</div>
+		</div>
+		
+		
+		<script src="lib/zepto.min.js"></script>
+		<script>
+			window.jQuery = $;
+		</script>
+		<script src="js/jquery.base64.js"></script>
+		<script src="js/jquery.jsonp.js"></script>
+
+		<script>
+			//闭包
+			(function(){
+				var Util=(function(){
+					//添加前缀是因为同一个域名共用缓存，为了避免用户意外使Key重复，所以这里加个前缀
+					var prefix='html5_reader_';
+
+					var StorageGetter =function(key){
+						return localStorage.getItem(prefix+key);
+					}
+					
+					var StorageSetter=function(key,val){
+						return localStorage.setItem(prefix+key,val);
+					}
+					//
+					return {
+						StorageGetter:StorageGetter,
+						StorageSetter:StorageSetter
+					}
+				})();
+				
+				//定位上下边栏
+				var Dom={
+					top_nav:$ ('#top_nav'),
+					bottom_nav:$('.bottom_nav'),
+					font_container:$('.font_container'),
+					fiction_main:$('#fiction_main')
+				}
+			
+				//缓存window和document对象
+				var Win=$(window);
+				var Doc=$(document);
+				var initial_font_size=14;
+				
+				//加载阅读器时初始化字体大小(上次保存的字体大小)
+				var initial_font_size=Util.StorageGetter('font_size');//取出保存的字体大小变量
+				initial_font_size=parseInt(initial_font_size);//好习惯，解析为int(存入时可能为string)
+				if(!initial_font_size){//如果是第一次打开页面，之前没有存入过，则取出为空，这里设置初始值为14
+					initial_font_size=14;
+				}
+				Dom.fiction_main.css('font-size',initial_font_size);
+				//第一个font-size是CSS属性，第二个font_size是key
+				
+				//初始化文章body背景颜色
+				var initial_body_color=Util.StorageGetter('body_color');
+				if(initial_body_color.length==0){
+					initial_body_color='rgb(214,201,176)';
+				}
+				Dom.fiction_main.css('background',initial_body_color);
+				
+				
+				//选中颜色按钮时的选中标志(//实现：在按钮的<div>元素中添加一个更大一点的<div>)
+				//设置bk_container_current类的button变量
+	
+				//var bk_container_button=document.createElement("button");//原生JS方法
+				//bk_container_button.setAttribute("class","bk_container_current");
+				
+				function main(){
+					//todo:整个函数的入口函数
+					EventHandler();
+				}
+				
+				function ReaderBaseFrame(){
+					//todo:渲染基本的UI结构
+				}
+				
+				function ReaderModel(){
+					//todo:实现和阅读器相关的数据交互方法
+				}
+				
+				function EventHandler(){
+					//todo:交互事件的绑定
+					//变量建议提前引用，但这里因为$('#action_mid')只用了一次，所以放在这里也没差
+					
+					//点击隐藏和显示边栏
+					$('#action_mid').click(function(){
+						if(Dom.top_nav.css('display')=='none'){
+							Dom.top_nav.show();
+							Dom.bottom_nav.show();
+							
+						}else{
+							Dom.top_nav.hide();
+							Dom.bottom_nav.hide();
+							Dom.font_container.hide();
+						}
+					});
+					
+					$('.js_font_button').click(function(){
+						if(Dom.font_container.css('display')=='none'){
+							Dom.font_container.show();
+						}else{
+							Dom.font_container.hide();
+							
+						}
+						//todo:点击字体按钮时，字体按钮颜色发生改变(老师是写了一个class，点击时就addclass)
+					});
+					
+					//滚动隐藏边栏
+					Win.scroll(function(){
+							Dom.top_nav.hide();
+							Dom.bottom_nav.hide();
+							Dom.font_container.hide();
+					});
+					
+					//夜间模式切换
+					$('night_button').click(function(){
+						//todo:背景颜色的切换(夜间模式实际上也是切换背景颜色)
+					});
+					
+					//字体大小切换
+					$('#large_font').click(function(){
+					
+						if(initial_font_size>20){
+							//限制最大字体为20像素
+							return
+						}
+						initial_font_size+=1;
+						Dom.fiction_main.css('font-size',initial_font_size);
+						Util.StorageSetter('font_size',initial_font_size);//key名称是自己定的
+					});
+					
+					$('#small_font').click(function(){
+						if(initial_font_size<12){
+							return
+						}
+						initial_font_size-=1;
+						Dom.fiction_main.css('font-size',initial_font_size);
+						Util.StorageSetter('font_size',initial_font_size);//key名称是自己定的
+					})
+					
+					//背景颜色切换
+					
+					$('#white_button').click(function(){
+						initial_body_color='rgb(255,255,255)';
+						Dom.fiction_main.css('background',initial_body_color);
+						Util.StorageSetter('body_color',initial_body_color);
+					});
+					$('#yellow_button').click(function(){
+						initial_body_color='rgb(214,201,176)';
+						Dom.fiction_main.css('background',initial_body_color);
+						Util.StorageSetter('body_color',initial_body_color);
+						
+						/*这是原生JS定位和添加子元素的方法，zepto应该有对应的。
+						这里是添加添加子元素来实现按钮出现外边框样式，实测可行
+						再加入是否检测是否已经有子元素的代码，就可以实现点击显示和隐藏选中样式的功能
+						不过这样通过添加元素的方法来设置样式，该怎样保存呢?废弃，
+						todo:查看github源码了解老师是怎么实现的
+						*/
+						//document.getElementById("yellow_button").appendChild(bk_container_button);
+						
+						
+					});
+					$('#gray_button').click(function(){
+						initial_body_color='rgb(151,149,149)';
+						Dom.fiction_main.css('background',initial_body_color);
+						Util.StorageSetter('body_color',initial_body_color);
+					});
+					$('#green_button').click(function(){
+						initial_body_color='rgb(178,212,186)';
+						Dom.fiction_main.css('background',initial_body_color);
+						Util.StorageSetter('body_color',initial_body_color);
+					});
+					$('#dark_button').click(function(){
+						initial_body_color='rgb(29,47,63)';
+						Dom.fiction_main.css('background',initial_body_color);
+						Util.StorageSetter('body_color',initial_body_color);
+					});
+					$('#night_button').click(function(){
+						initial_body_color='rgb(23,22,20)';
+						Dom.fiction_main.css('background',initial_body_color);
+						Util.StorageSetter('body_color',initial_body_color);
+					});
+					
+					
+					
+					
+				}
+				return main();
+			})();
+		</script>
+	</body>
+</html>
