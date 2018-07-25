@@ -26,7 +26,7 @@
 				line-height:31px;
 				padding:15px;
 			}
-			
+
 			.fiction_main h4{
 				font-size:20px;
 				color:#736357;
@@ -399,8 +399,23 @@
 					var StorageSetter=function(key,val){
 						return localStorage.setItem(prefix+key,val);
 					}
-					//
+					
+					var getBSONP=function(url,callback){
+						return $.jsonp({//插件(外引的JS文件)提供的方法
+							//指定该方法的参数
+							url:url,
+							cache:true,
+							callback:'duokan_fiction_chapter',//请求回来的数据外面包了一个方法，原理就是把这段数据当成一段JS代码插到页面里直接去执行
+							success:function(result){//result结果集就是那段被base64加密的数据
+								var data = $.base64.decode(result);//插件里的base64解码方法，返回json数据
+								var json = decodeURIComponet(escape(data));//JS原生带的，之后看一下每一步返回什么就知道这样干是为啥了
+								callback(data);
+							}
+						})
+					}//获得json加密后的数据
+
 					return {
+						getBSONP:getBSONP,
 						StorageGetter:StorageGetter,
 						StorageSetter:StorageSetter
 					}
@@ -444,17 +459,54 @@
 				
 				function main(){
 					//todo:整个函数的入口函数
+					var readerModel=ReaderModel();
+					readerModel.init();
 					EventHandler();
+				}
+				
+				function ReaderModel(){
+					//todo:实现和阅读器相关的数据交互方法
+					var chapter_id;
+					var init = function(){
+						getFictionInfo(function(){
+							getCurrentChapterContent(chapter_id,function(){
+							//TODO:数据层和UI层的联络渲染
+							
+							});  
+						})
+					} 
+                   
+					var getFictionInfo=function(callback){
+						$.get("./data/chapter.json",function(data){
+							//TO:获得章节信息之后的回调函数
+							chapter_id=data.chapters[1].chapter_id;//获取章节的id
+							callback && callback();//回调(返回? )
+						},"json");//，参数(接口,回调函数)，只供演示使用，不代表真实数据接口
+						
+						var getCurrentChapterContent =function(chapter_id,data){
+							$.get("./data/data"+chapter_id+".json",function(data){
+								if(data.result==0){//判断服务器状态，不同公司不一样，有些喜欢在返回的字段价格code或result或message，都是预先设定好的，这里等于0表示是OK的
+									var url=data.jsonp;//由提供的数据的结构，解析出返回的数据的jsonp值，即为真实数据(base64加密)的地址。
+									Util.getBSONP(url,function(data){//base64解密
+										callback && callback(data);
+									});
+									
+								}
+							},"json")
+						}
+
+						return{
+							init : init//返回接口
+						}
+					} 
+
 				}
 				
 				function ReaderBaseFrame(){
 					//todo:渲染基本的UI结构
 				}
 				
-				function ReaderModel(){
-					//todo:实现和阅读器相关的数据交互方法
-				}
-				
+
 				function EventHandler(){
 					//todo:交互事件的绑定
 					//变量建议提前引用，但这里因为$('#action_mid')只用了一次，所以放在这里也没差
@@ -562,7 +614,7 @@
 					
 					
 				}
-				return main();
+				main();
 			})();
 		</script>
 	</body>
