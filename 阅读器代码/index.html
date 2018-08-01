@@ -83,6 +83,7 @@
 				z-index:9999;
 				background:#000;
 			}
+
 			
 			.nav_icon {
 				position:absolute;
@@ -94,9 +95,9 @@
 				);
 				background-size:contain;
 				/*background的base64图片大小不一定跟设定的容器大小相等，
-				所以要设置bakcground-size为contain-->
-				/*其它方法设置图标的方法还有用字体、用CSS样式实现等-->
-				/*absolute定位是相对fixed了的父元素来说的，这样就不会随body元素滑动而滑动了-->
+				/*所以要设置bakcground-size为contain*/
+				/*其它方法设置图标的方法还有用字体、用CSS样式实现等*/
+				/*absolute定位是相对fixed了的父元素来说的，这样就不会随body元素滑动而滑动了*/
 
 			}
 			
@@ -116,7 +117,7 @@
 				z-index:9999;
 				background:#000;
 				opacity:0.8;
-				/*下边栏样式-->
+				/*下边栏样式*/
 			}
 			
 			.bottom_nav_icon{
@@ -183,7 +184,7 @@
 				width:100%;
 				color:#fff;
 				z-index:10001;
-			/*下边栏控制面板样式-->	
+			/*下边栏控制面板样式*/
 			}
 			
 			.child_mod {
@@ -197,7 +198,7 @@
 				padding-right:20px;
 				/*vertical-align该属性定义行内元素的基线相对于该元素所在行的基线的垂直对齐。
 				允许指定负长度值和百分比值。这会使元素降低而不是升高。
-				在表单元格中，这个属性会设置单元格框中的单元格内容的对齐方式。-->
+				在表单元格中，这个属性会设置单元格框中的单元格内容的对齐方式。*/
 			}
 			
 			.font_size_button {
@@ -381,6 +382,9 @@
 				var Win=$(window);
 				var Doc=$(document);
 				var initial_font_size=14;
+
+				var readerModel;
+				var readerUI;
 				
 				//加载阅读器时初始化字体大小(上次保存的字体大小)
 				var initial_font_size=Util.StorageGetter('font_size');//取出保存的字体大小变量
@@ -407,8 +411,8 @@
 				
 				function main(){
 					//todo:整个函数的入口函数
-					var readerModel=ReaderModel();
-					var readerUI=ReaderBaseFrame(Dom.fiction_main);//变量为之前获取的页面容器变量
+					readerModel=ReaderModel();
+					readerUI=ReaderBaseFrame(Dom.fiction_main);//变量为之前获取的页面容器变量
 					readerModel.init(function(data){
 						readerUI(data);
 					});
@@ -419,6 +423,7 @@
 				function ReaderModel(){
 					//todo:实现和阅读器相关的数据交互方法
 					var chapter_id;
+					var chapter_total;
 					var init = function(UIcallback){
 						getFictionInfo(function(){
 							getCurrentChapterContent(chapter_id,function(data){
@@ -432,26 +437,59 @@
 						$.get("./data/chapter.json",function(data){
 							//TO:获得章节信息之后的回调函数
 							chapter_id=data.chapters[1].chapter_id;//获取章节的id
+							chapter_total=data.chapters.length;
 							callback && callback();//回调(返回? )
 						},"json");//，参数(接口,回调函数)，只供演示使用，不代表真实数据接口
-						
-						var getCurrentChapterContent =function(chapter_id,callback){
-							$.get("./data/data"+chapter_id+".json",function(data){
-								if(data.result==0){//判断服务器状态，不同公司不一样，有些喜欢在返回的字段价格code或result或message，都是预先设定好的，这里等于0表示是OK的
-									var url=data.jsonp;//由提供的数据的结构，解析出返回的数据的jsonp值，即为真实数据(base64加密)的地址。
-									Util.getBSONP(url,function(data){//base64解密
-										//debugger 回顾数据结构
-										callback && callback(data);
-									});
-									
-								}
-							},"json")
+					}	
+					var getCurrentChapterContent =function(chapter_id,callback){
+						$.get("./data/data"+chapter_id+".json",function(data){
+							if(data.result==0){//判断服务器状态，不同公司不一样，有些喜欢在返回的字段价格code或result或message，都是预先设定好的，这里等于0表示是OK的
+								var url=data.jsonp;//由提供的数据的结构，解析出返回的数据的jsonp值，即为真实数据(base64加密)的地址。
+								Util.getBSONP(url,function(data){//base64解密
+									//debugger 回顾数据结构
+									callback && callback(data);
+								});
+								
+							}
+						},"json")
+					}
+					var getCurrentChapterContent =function(chapter_id,callback){
+						$.get("./data/data"+chapter_id+".json",function(data){
+							if(data.result==0){//判断服务器状态，不同公司不一样，有些喜欢在返回的字段价格code或result或message，都是预先设定好的，这里等于0表示是OK的
+								var url=data.jsonp;//由提供的数据的结构，解析出返回的数据的jsonp值，即为真实数据(base64加密)的地址。
+								Util.getBSONP(url,function(data){//base64解密
+									//debugger 回顾数据结构
+									callback && callback(data);
+								});
+								
+							}
+						},"json")
+					}
+					
+					var prevChapter=function(){
+						chapter_id=parseInt(chapter_id,10);
+						if(chapter_id==0){
+							return;
 						}
+						chapter_id-=1;
+						getCurrentChapterContent(chapter_id,UIcallback);
+					}
 
-						return{
-							init : init//返回接口
+					var nextChapter=function(UIcallback){
+						chapter_id=parseInt(chapter_id,10);
+						if(chapter_id==chapter_total){
+							return;
 						}
-					} 
+						chapter_id+=1;
+						getCurrentChapterContent(chapter_id,UIcallback);
+					}
+
+					return{
+						init : init,//返回接口
+						prevChapter : prevChapter,
+						nextChapter : nextChapter
+					}
+					//change:此处删除了一个括号},getCurrentChapterContent()和getFictionInfo(),应该是并列关系而不是包含关系
 
 				}
 				
@@ -508,7 +546,7 @@
 							Dom.bottom_nav.hide();
 							Dom.font_container.hide();
 					});
-					
+
 					//夜间模式切换
 					$('night_button').click(function(){
 						//todo:背景颜色的切换(夜间模式实际上也是切换背景颜色)
@@ -577,7 +615,17 @@
 						Dom.fiction_main.css('background',initial_body_color);
 						Util.StorageSetter('body_color',initial_body_color);
 					});
+
+					 $('prev_button').click(function(){
+						readerModel.prevChapter();
+					 });
 					
+					 $('next_button').click(function(){
+						readerModel.nextChapter(function(data){
+							readerUI(data);
+						});
+					 });
+
 					
 					
 					
