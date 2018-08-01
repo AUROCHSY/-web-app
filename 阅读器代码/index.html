@@ -314,59 +314,6 @@
 				<div class="artical_action_mid" id="action_mid"></div>
 			</div>
 			<div id="fiction_main" class="fiction_main">
-				<h4>这是章节标题</h4>
-				<p>这是小说内容这是小说内容这是小说内容这是小说内容
-				这是小说内容这是小说内容这是小说内容这是小说内容
-				这是小说内容这是小说内容这是小说内容这是小说内容
-				这是小说内容这是小说内容这是小说内容这是小说内容
-				这是小说内容这是小说内容这是小说内容这是小说内容
-				</p>
-				<p>这是小说内容这是小说内容这是小说内容这是小说内容
-				这是小说内容这是小说内容这是小说内容这是小说内容
-				这是小说内容这是小说内容这是小说内容这是小说内容
-				这是小说内容这是小说内容这是小说内容这是小说内容
-				这是小说内容这是小说内容这是小说内容这是小说内容
-				</p>
-				<p>混响时间从冏茶水间从i啊几次哦静安寺哦
-				下属传教士剪草机从送i
-				撒初次哦啊十几次哦啊技术才是参加哦i啊
-				擦拭超长焦距走i几下就从i啊就送刺激哦
-				这是小说内容这是小说内容这是小说内容这是小说内容
-				这是小说内容这是小说内容这是小说内容这是小说内容
-				这是小说内容这是小说内容这是小说内容这是小说内容
-				这是小说内容这是小说内容这是小说内容这是小说内容
-				这是小说内容这是小说内容这是小说内容这是小说内容
-				这是小说内容这是小说内容这是小说内容这是小说内容
-				</p>
-				<p>
-				下属传教士剪草机从送i
-				撒初次哦啊十几次哦啊技术才是参加哦i啊
-				擦拭超长焦距走i几下就从i啊就送刺激哦
-				这是小说内容这是小说内容这是小说内容这是小说内容
-				这是小说内容这是小说内容这是小说内容这是小说内容
-				这是小说内容这是小说内容这是小说内容这是小说内容
-				这是小说内容这是小说内容这是小说内容这是小说内容
-				这是小说内容这是小说内容这是小说内容这是小说内容
-				这是小说内容这是小说内容这是小说内容这是小说内容
-				下属传教士剪草机从送i
-				撒初次哦啊十几次哦啊技术才是参加哦i啊
-				擦拭超长焦距走i几下就从i啊就送刺激哦
-				这是小说内容这是小说内容这是小说内容这是小说内容
-				这是小说内容这是小说内容这是小说内容这是小说内容
-				这是小说内容这是小说内容这是小说内容这是小说内容
-				这是小说内容这是小说内容这是小说内容这是小说内容
-				这是小说内容这是小说内容这是小说内容这是小说内容
-				这是小说内容这是小说内容这是小说内容这是小说内容
-				下属传教士剪草机从送i
-				撒初次哦啊十几次哦啊技术才是参加哦i啊
-				擦拭超长焦距走i几下就从i啊就送刺激哦
-				这是小说内容这是小说内容这是小说内容这是小说内容
-				这是小说内容这是小说内容这是小说内容这是小说内容
-				这是小说内容这是小说内容这是小说内容这是小说内容
-				这是小说内容这是小说内容这是小说内容这是小说内容
-				这是小说内容这是小说内容这是小说内容这是小说内容
-				这是小说内容这是小说内容这是小说内容这是小说内容
-				</p>
 			</div>
 			<div id="bottom_button" class="m-button-bar">
 			<ul class="u-tab">
@@ -407,9 +354,10 @@
 							cache:true,
 							callback:'duokan_fiction_chapter',//请求回来的数据外面包了一个方法，原理就是把这段数据当成一段JS代码插到页面里直接去执行
 							success:function(result){//result结果集就是那段被base64加密的数据
+								//debugger
 								var data = $.base64.decode(result);//插件里的base64解码方法，返回json数据
 								var json = decodeURIComponet(escape(data));//JS原生带的，之后看一下每一步返回什么就知道这样干是为啥了
-								callback(data);
+								callback(json);
 							}
 						})
 					}//获得json加密后的数据
@@ -460,18 +408,22 @@
 				function main(){
 					//todo:整个函数的入口函数
 					var readerModel=ReaderModel();
-					readerModel.init();
+					var readerUI=ReaderBaseFrame(Dom.fiction_main);//变量为之前获取的页面容器变量
+					readerModel.init(function(data){
+						readerUI(data);
+					});
+					
 					EventHandler();
 				}
 				
 				function ReaderModel(){
 					//todo:实现和阅读器相关的数据交互方法
 					var chapter_id;
-					var init = function(){
+					var init = function(UIcallback){
 						getFictionInfo(function(){
-							getCurrentChapterContent(chapter_id,function(){
+							getCurrentChapterContent(chapter_id,function(data){
 							//TODO:数据层和UI层的联络渲染
-							
+							UIcallback&&UIcallback(data);
 							});  
 						})
 					} 
@@ -483,11 +435,12 @@
 							callback && callback();//回调(返回? )
 						},"json");//，参数(接口,回调函数)，只供演示使用，不代表真实数据接口
 						
-						var getCurrentChapterContent =function(chapter_id,data){
+						var getCurrentChapterContent =function(chapter_id,callback){
 							$.get("./data/data"+chapter_id+".json",function(data){
 								if(data.result==0){//判断服务器状态，不同公司不一样，有些喜欢在返回的字段价格code或result或message，都是预先设定好的，这里等于0表示是OK的
 									var url=data.jsonp;//由提供的数据的结构，解析出返回的数据的jsonp值，即为真实数据(base64加密)的地址。
 									Util.getBSONP(url,function(data){//base64解密
+										//debugger 回顾数据结构
 										callback && callback(data);
 									});
 									
@@ -502,8 +455,23 @@
 
 				}
 				
-				function ReaderBaseFrame(){
+				function ReaderBaseFrame(container){
 					//todo:渲染基本的UI结构
+		
+					function parseChapterData(jsonData){
+						var jsonObj=JSON.parse(jsonData);//移动端兼容
+						//因为这里数据比较简单，就没有用模板引擎，
+						//对于小数据而言这样直接+链接构建HTML结构也基本是没有效率问题的
+						var html='<h4>'+jsonObj.t+'</h4>';
+						for(var i=0;i<jsonObj.p.length;i++){
+							html+='<p>'+jsonObj.p[i]+'</p>';
+						}
+						return html;
+					}
+					return function(data){
+						container.html(parseChapterData(data));//html结构的渲染
+					}
+			
 				}
 				
 
