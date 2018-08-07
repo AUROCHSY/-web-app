@@ -322,9 +322,6 @@
 				<li id="next_button">下一章</li><!--因为这里一般会有多行按钮，所以用-->
 			</div>
 		</div>
-			</div>
-		</div>
-		
 		
 		<script src="lib/zepto.min.js"></script>
 		<script>
@@ -336,6 +333,7 @@
 		<script>
 			//闭包
 			(function(){
+				'use strict';
 				var Util=(function(){
 					//添加前缀是因为同一个域名共用缓存，为了避免用户意外使Key重复，所以这里加个前缀
 					var prefix='html5_reader_';
@@ -425,14 +423,29 @@
 					var chapter_id;
 					var chapter_total;
 					var init = function(UIcallback){
+						/*
 						getFictionInfo(function(){
 							getCurrentChapterContent(chapter_id,function(data){
-							//TODO:数据层和UI层的联络渲染
+							//DO:数据层和UI层的联络渲染
 							UIcallback&&UIcallback(data);
 							});  
 						})
+						*/
+						getFictionInfoPromise().then(function(d){
+							/*getCurrentChapterContent(chapter_id,function(data){
+								//DO:数据层和UI层的联络渲染
+								UIcallback&&UIcallback(data);
+
+							}); */
+							return getCurrentChapterContentPromise;
+						}).then(function(data){
+							UIcallback&&UIcallback(data);
+						});//如果需要加更多的回调的话，加then就可以,
+						//前提是上面返回的是一个promise对象而不是callback回调函数
+						//通过promise对象的使用使原来的嵌套结构变成了平行结构
 					} 
-                   
+                   /* 
+				   //promise化后这段代码已经没用了，下面的函数发挥了这个函数的作用
 					var getFictionInfo=function(callback){
 						$.get("./data/chapter.json",function(data){
 							//TO:获得章节信息之后的回调函数
@@ -444,32 +457,61 @@
 							chapter_total=data.chapters.length;
 							callback && callback();//回调(返回? )
 						},"json");//，参数(接口,回调函数)，只供演示使用，不代表真实数据接口
-					}	
-					var getCurrentChapterContent =function(chapter_id,callback){
-						$.get("./data/data"+chapter_id+".json",function(data){
-							if(data.result==0){//判断服务器状态，不同公司不一样，有些喜欢在返回的字段价格code或result或message，都是预先设定好的，这里等于0表示是OK的
-								var url=data.jsonp;//由提供的数据的结构，解析出返回的数据的jsonp值，即为真实数据(base64加密)的地址。
-								Util.getBSONP(url,function(data){//base64解密
-									//debugger 回顾数据结构
-									callback && callback(data);
-								});
-								
-							}
-						},"json")
-					}
-					var getCurrentChapterContent =function(chapter_id,callback){
-						$.get("./data/data"+chapter_id+".json",function(data){
-							if(data.result==0){//判断服务器状态，不同公司不一样，有些喜欢在返回的字段价格code或result或message，都是预先设定好的，这里等于0表示是OK的
-								var url=data.jsonp;//由提供的数据的结构，解析出返回的数据的jsonp值，即为真实数据(base64加密)的地址。
-								Util.getBSONP(url,function(data){//base64解密
-									//debugger 回顾数据结构
-									callback && callback(data);
-								});
-								
-							}
-						},"json")
-					}
+					}//promise化后这段代码已经没用了，下面的函数发挥了这个函数的作用
 					
+					*/
+
+					var getFictionInfoPromise=function(){
+						return new Promise(function(resolve,reject){//在调用是创建promise对象
+						$.get("./data/chapter.json",function(data){
+							//DO:处理获得的章节信息
+							if(data.result==0){
+								chapter_id=Util.StorageGetter('last_chapter_id');
+								if(chapter_id==null)
+								{
+									chapter_id=data.chapters[1].chapter_id;//获取章节的id
+								}
+								chapter_total=data.chapters.length;
+								resolve();
+							}else{
+								reject({msg:'get fiction info fail'});
+							}
+						},"json");//，参数(接口,回调函数)，只供演示使用，不代表真实数据接口	
+						});
+					}
+				/* 
+				//promise化后这段代码已经没用了，下面的函数发挥了这个函数的作用
+					var getCurrentChapterContent =function(c_id,callback){
+						$.get("./data/data"+c_id+".json",function(data){
+							if(data.result==0){//判断服务器状态，不同公司不一样，有些喜欢在返回的字段价格code或result或message，都是预先设定好的，这里等于0表示是OK的
+								var url=data.jsonp;//由提供的数据的结构，解析出返回的数据的jsonp值，即为真实数据(base64加密)的地址。
+								Util.getBSONP(url,function(data){//base64解密
+									//debugger 回顾数据结构
+									callback && callback(data);
+								});
+								
+							} 
+						},"json");
+					};
+				*/
+					var getCurrentChapterContentPromise=function(){
+						return new Promise(function(resolve,reject){
+						$.get("./data/data"+chapter_id+".json",function(data){
+							if(data.result==0){//判断服务器状态，不同公司不一样，有些喜欢在返回的字段价格code或result或message，都是预先设定好的，这里等于0表示是OK的
+								var url=data.jsonp;//由提供的数据的结构，解析出返回的数据的jsonp值，即为真实数据(base64加密)的地址。
+								Util.getBSONP(url,function(data){//base64解密
+									//debugger 回顾数据结构
+									//callback && callback(data);
+									resolve(data);
+								});
+								
+							}else{
+								reject({msg:'get content fail'});
+							}
+						},"json");
+						});
+					}
+
 					var prevChapter=function(){
 						chapter_id=parseInt(chapter_id,10);
 						if(chapter_id==0){
