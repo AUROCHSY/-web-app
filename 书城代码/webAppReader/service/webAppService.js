@@ -81,7 +81,7 @@ exports.get_category_data = function(){//Node.js的语法
 	return content;
 }
 
-//书籍页
+//书籍详情页(需要传参数书籍id)
 exports.get_book_data = function(id){//Node.js的语法
 	if(!id){//如果传过来的id是空的，设为默认书籍
 		id="18218";

@@ -110,5 +110,7 @@ app.use(controller.get('/ajax/book',function*(){
 	this.body =service.get_book_data(id);//这里函数不是是异步返回的，不用yield返回
 })); 
 
+//运行结果：运行该程序，到地址栏访问 localhost:3001/ajax/index 或其它对应尾缀查看对应数据页
+
 app.listen(3002);//设置监听端口
 console.log('koa server is started');
