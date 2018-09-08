@@ -1,10 +1,12 @@
 var fs = require('fs');//添加访问文件系统功能
 
+/*10.4为网站添加Mock数据接口*/
 exports.get_test_data = function(){//Node.js的语法
 	var content = fs.readFileSync('./mock/testData.json','utf-8');
 	return content;
 }
 
+/*10.5为网站添加接口之线上HTTP接口调用*/
 exports.get_search_data = function(start, end, keyword) {//这三个参数是分别是开始结束页码，搜索关键字，小米书城的接口就是这样，就得这样写
 	return function(cb) {//因为是一个异步的http的接口，所以要返回一个异步函数
 		var http = require('http');//自带的http模块，这里用于发送请求
@@ -48,3 +50,44 @@ exports.get_search_data = function(start, end, keyword) {//这三个参数是分
 		req_obj.end();//发送请求
 	}
 }
+
+/*10.6网站服务端Ajax接口的完整开发*/
+//主页服务层
+exports.get_index_data = function(){//Node.js的语法
+	var content = fs.readFileSync('./mock/home.json','utf-8');
+	return content;
+}
+
+//排序页服务层
+exports.get_rank_data = function(){//Node.js的语法
+	var content = fs.readFileSync('./mock/rank.json','utf-8');
+	return content;
+}
+
+//男频页服务层
+exports.get_male_data = function(){//Node.js的语法
+	var content = fs.readFileSync('./mock/channel/male.json','utf-8');
+	return content;
+}
+//女频页服务层
+exports.get_female_data = function(){//Node.js的语法
+	var content = fs.readFileSync('./mock/channel/female.json','utf-8');
+	return content;
+}
+
+//目录页服务层
+exports.get_category_data = function(){//Node.js的语法
+	var content = fs.readFileSync('./mock/category.json','utf-8');
+	return content;
+}
+
+//书籍页
+exports.get_book_data = function(id){//Node.js的语法
+	if(!id){//如果传过来的id是空的，设为默认书籍
+		id="18218";
+	}
+	
+	var content = fs.readFileSync('./mock/book/'+id+'.json','utf-8');
+	return content;
+}
+

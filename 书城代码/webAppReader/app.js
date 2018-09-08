@@ -62,10 +62,53 @@ app.use(controller.get('/ajax/search',function*(){
 	var start = params.start;
 	var end = params.end;
 	var keyword = params.keyword;
-	this.body = yield service.get_search_data(start,end,keyword);
+	this.body = yield service.get_search_data(start,end,keyword);//函数是异步返回的
 }));
 
+//运行结果：运行该程序，到地址栏访问 localhost:3001/ajax/search?keyword=123 页面会显示dushu.xiaomi.com里对应关键字的搜索内容，也可以添加更多参数比如?keyword=123&start=10
 
+/*10.6网站服务端Ajax接口的完整开发*/
+
+//主页路由接口
+app.use(controller.get('/ajax/index',function*(){
+	this.set('Cache-Control','no-cache');
+	this.body = service.get_index_data();
+}));
+
+//排序页路由接口
+app.use(controller.get('/ajax/rank',function*(){
+	this.set('Cache-Control','no-cache');
+	this.body = service.get_rank_data();
+}));
+
+//男频路由接口
+app.use(controller.get('/ajax/male',function*(){
+	this.set('Cache-Control','no-cache');
+	this.body = service.get_male_data();
+}));
+
+//女频页路由接口
+app.use(controller.get('/ajax/female',function*(){
+	this.set('Cache-Control','no-cache');
+	this.body = service.get_female_data();
+}));
+
+//目录页路由接口
+app.use(controller.get('/ajax/category',function*(){
+	this.set('Cache-Control','no-cache');
+	this.body = service.get_category_data();
+}));
+
+//书籍详情页路由接口(跟其它几个稍微不同，这个需要传书籍的id)
+app.use(controller.get('/ajax/book',function*(){
+	this.set('Cache-Control','no-cache');
+	var params = querystring.parse(this.req._parsedUrl.query);//将http参数转为object格式
+	var id = params.id;
+	if(!id){
+		id="";
+	}
+	this.body =service.get_book_data(id);//这里函数不是是异步返回的，不用yield返回
+})); 
 
 app.listen(3002);//设置监听端口
 console.log('koa server is started');
