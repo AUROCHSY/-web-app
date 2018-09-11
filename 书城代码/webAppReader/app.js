@@ -32,7 +32,7 @@ app.use(controller.get('/route_test',function*(){
 /*10.2.实现模板渲染功能 */
 app.use(controller.get('/ejs_test',function*(){
     this.set('Cache-Control','no-cache');//设置HTTP返回头，不缓存内容
-    this.body=yield render('testmodel',{title:'title_test'});
+    this.body=yield render('testmodel',{title:'这是测试传参的title_test'});
     //yield语句 是es6的语言特性generator函数，用于完成异步函数的执行，阮一峰的博客介绍得比较详细
     //render的参数1是模板(html文件)的名字,在初始化render时设置的路径里寻找，参数2是传入模板的"变量:变量值"键值对
 
@@ -43,7 +43,7 @@ app.use(controller.get('/ejs_test',function*(){
 /*10.3.实现静态资源访问功能 */
 app.use(koa_static({
     rootDir:'./static/',//实际访问的服务器中的路径
-    rootPath:'/s/',//地址栏中输入的路径
+    rootPath:'/static/',//地址栏中输入的路径,注意，如果这里修改了比如说"/s/"，那么在外部文件引入的时候路径也要相应修改
     maxage:0 //缓存有效时间
 }));
 

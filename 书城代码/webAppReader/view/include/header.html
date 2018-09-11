@@ -1,0 +1,88 @@
+<style type="text/css">
+.header-tab{/**/
+        padding: 0px 90px;
+        text-align: center;
+        line-height: 44px;
+        background: #efeff0;
+        border-bottom: 1px solid #ddd;
+        position: relative;
+    }
+    .header-tab i {/*表示选中状态的的下划线*/
+        bottom: -1px;
+    }
+    .header-tab i:before{
+        content:'';
+        display: block;
+        height: 2px;
+        width: 34px;
+        margin:0 auto;
+        background: #777;
+    }
+    .header-tab a:before{/*'书架'标签*/
+        content: '\4e66\67b6';/*书架*/
+        display:block;
+        margin: 0 auto;
+        width:2em;
+    }
+    .header-tab a:first-child:before{
+            content: '\4e66\57ce';/*书城*/
+    }
+    .header-user {/*'用户'按钮*/
+        position: absolute;
+        right: 0px;
+        top:0px;
+        width: 44px;
+        height: 44px;
+        background: url(http://image.read.duokan.com/mfsv2/download/fdsc3/p01j041d5DOT/boUg2EJlVetOMC.png) no-repeat center;
+        background-size: 16px;
+    }
+    .header-checkin{/*'签到'按钮*/
+        position: absolute;
+        left: 0px;
+        top:0px;
+        width: 44px;
+        height: 44px;
+        background: url(http://image.read.duokan.com/mfsv2/download/s010/p01O5K5DzsAZ/2ZODzjwkRQh7l3.png) no-repeat center;/*签到/static/img/header-checkin2.png*/
+        background-size: 22px;
+    }
+    .Swipe-tab {
+        position: relative;
+        overflow: hidden;
+        z-index:1;
+    }
+    .Swipe-tab i {
+        position: absolute;
+        left: 0;
+        -webkit-transition:-webkit-transform .3s ease-out;
+    }
+    .Swipe-tab a {
+        float: left;
+        text-align: center;
+        -webkit-tap-highlight-color:rgba(0,0,0,0);
+    }
+    
+    .Swipe-tab_2 a {
+        width: 50%;
+    }
+
+    .f-cb:after{
+        clear:both;
+        content: '';
+        display: block;
+        height: 0;
+        overflow:hidden;
+        visibility: hidden;
+    }
+</style>
+<div class="header-tab" id="app_header">
+    <!--移动端的动画切记不要通过操作dom结点来实现，性能和效果都差，要用CSS实现-->
+    <div class="Swipe-tab Swipe-tab_2 f-cb"><!--为了更好地复用，class可以多些点，共同决定这个样式-->
+        <!--这几个样式都是自己定义的，Swipe-tab是通用的标签样式，Wwipe-tab-2表示只有两个标签时的样式，f-cb表示需要清除浮动的样式-->
+        <a href="javascript:"></a><!--书城标签，文字通过CSS样式用unicode编码显示了-->
+        <a href="javascript:"></a><!--书架-->
+        <i style=" width:277px;transition-duration:0s;transform:translate3d(0px,0px,0px)"></i><!--表示选中状态的下划线-->
+            <!--需要被js动态操作的属性写到style里，不需要被操作的酒不写-->
+    </div>
+    <em class="header-user"></em><!--签到按钮(带图案)-->
+    <em class="header-checkin"></em><!--用户按钮(带图案)-->
+</div>
