@@ -1,1 +1,404 @@
 /*所有的CSS样式集中的地方*/
+
+/*index.html主页的样式==========*/
+.container-wrap{
+	height:100%;
+	overflow:hidden;
+	position:relative;
+}
+.container-scoll{
+	position:absolute;
+	top:45px;
+	bottom:0px;
+	left:0px;
+	right:0px;
+	overflow-y:scroll;
+}
+
+/*网站固定顶部栏 header.html===========*/
+.header-tab{
+	padding: 0px 90px;
+	text-align: center;
+	line-height: 44px;
+	background: #efeff0;
+	border-bottom: 1px solid #ddd;
+	position: relative;
+}
+.header-tab i {/*表示选中状态的的下划线*/
+	bottom: -1px;
+}
+.header-tab i:before{
+	content:'';
+	display: block;
+	height: 2px;
+	width: 34px;
+	margin:0 auto;
+	background: #777;
+}
+.header-tab a:before{/*'书架'标签*/
+	content: '\4e66\67b6';/*书架*/
+	display:block;
+	margin: 0 auto;
+	width:2em;
+}
+.header-tab a:first-child:before{
+		content: '\4e66\57ce';/*书城*/
+}
+.header-user {/*'用户'按钮*/
+	position: absolute;
+	right: 0px;
+	top:0px;
+	width: 44px;
+	height: 44px;
+	background: url(http://image.read.duokan.com/mfsv2/download/fdsc3/p01j041d5DOT/boUg2EJlVetOMC.png) no-repeat center;
+	background-size: 16px;
+}
+.header-checkin{/*'签到'按钮*/
+	position: absolute;
+	left: 0px;
+	top:0px;
+	width: 44px;
+	height: 44px;
+	background: url(http://image.read.duokan.com/mfsv2/download/s010/p01O5K5DzsAZ/2ZODzjwkRQh7l3.png) no-repeat center;/*签到/static/img/header-checkin2.png*/
+	background-size: 22px;
+}
+.Swipe-tab {
+	position: relative;
+	overflow: hidden;
+	z-index:1;
+}
+.Swipe-tab__on{
+   color:#ff6600; 
+}
+.Swipe-tab i {
+	position: absolute;
+	left: 0;
+	-webkit-transition:-webkit-transform .3s ease-out;
+}
+.Swipe-tab a {
+	float: left;
+	text-align: center;
+	-webkit-tap-highlight-color:rgba(0,0,0,0);
+}
+
+.Swipe-tab_2 a {
+	width: 50%;
+}
+
+.f-cb:after{
+	clear:both;
+	content: '';
+	display: block;
+	height: 0;
+	overflow:hidden;
+	visibility: hidden;
+}
+
+/*index-top.html==========*/
+.top-home{
+	background:#fff;
+	border-bottom:10px solid #f5f5f5;
+}
+.top-home__search{
+	margin:10px 13px;
+	padding:1px 0 0 30px;
+	font:11px/33px a;/*是属性的缩写:分别是字体大小，行高，字体类型(Arial)*/
+	color:rgba(0,0,0,0.4);/*相当于黑色字体加个透明度就是浅灰色的了，也可以直接取灰色*/
+	background:url(/static/img/search.png) no-repeat 8px center;/*搜索图标，图标可以通过设为背景的形式实现，或者直接在元素里添加<img>标签*/
+	background-size:14px;
+	border:1px solid #f5f5f5;
+	border-radius:2px;
+}
+.cover{
+	width:100%
+	}
+.top-home__btn{
+	margin:14px 0 4px;
+	display:-webkit-box;/*box-flex属性，根据父元素动态按比例确定该元素的大小 http://www.w3school.com.cn/cssref/pr_box-flex.asp*/
+	width:100%;
+}
+.top-home__btn li {
+	line-height:2.4;
+	font-size:12px;
+	text-align:center;
+	-webkit-box-flex:1;
+}
+.top-home__icon{
+	display:block;
+	margin:0 auto;
+	height:22px;
+	width:22px;
+	background-position:center;
+}
+/*index-recommend.html==========*/
+.channel-h5{/*推荐列表最外层容器*/
+	background:#fff;
+	border-bottom:10px solid #f5f5f5;
+	position:relative;
+}
+.channel-h5__header{/*推荐列表顶栏容器*/
+	padding:15px 13px 14px 13px;
+	border-bottom:1px solid #f0f0f0;
+	position:relative;
+}  
+.channel-h5__title{/*推荐列表顶栏"重磅推荐"文字样式*/
+	position:relative;
+	font:bold 13px/13px a;
+	color:rgba(0,0,0,0.9); 
+}
+
+.channel-h5__title >i {/*推荐列表顶栏"推"字样式*/
+	position:absolute;
+	margin:-1px 0 0 5px;
+	padding:3px 5px 0 5px;
+	font:9px/9px a;
+	color:#fff;
+	background:#53ac7d;
+}
+.tab{/*推荐列表顶栏"男|女"标签容器*/
+	position:absolute;
+	right:13px;
+	top:9px;
+}
+.tab a{/*推荐列表顶栏"男|女"文字样式*/
+	position:relative;
+	padding:16px 7px;
+	font:12px/12px a;
+	color:#999;
+}
+.tab a:after{/*推荐列表顶栏"男|女"文字之后的空的填充???*/
+	content:'';
+	position:absolute;
+	top:16px;
+	bottom:16px;
+	right:0;
+	width:1px; 
+	border-right:solid 1px #ccc;
+}
+.tab a:last-child{padding-right:0px;}/*推荐列表顶栏女"字*/
+.tab a:last-child:after{display:none;}
+.tab__on{/*推荐列表顶栏"男|女"被选中标签的样式*/
+	color:#528ae8 !important;
+}
+.list-h5{/*推荐的书籍容器*/
+	padding:0 13px;
+}
+.list-h5 li{/*书籍列表项容器*/
+	padding:17px 0;
+	border-bottom:1px solid #f0f0f0;
+}
+.list-h5 li:last-child{/*移动端对这些CSS3选择器支持度好，PC端就不一定了*/
+	border:none;
+}
+.book-h5{/*书籍次外层*/
+	overflow:hidden;
+}
+.book-h5__cover{/*书籍封面容器*/
+	float:left;
+	position:relative;
+	width:85px;
+	height:113px;
+	background-color:#eeece9;
+	border:1px solid #f0f0f0;
+	border-radius:1px;
+	overflow:hidden;
+}
+.book-h5 img{/*书籍图片(封面的)*/
+	width:100%;
+	height:100%;
+	border-radius:1px;
+}
+.book-h5__finish{/*书籍已完结样式*/
+	position:absolute;
+	bottom: 0px;
+	width: 100%;
+	box-sizing: border-box;
+	font: 10px/10px a;
+	padding: 25px 7px 6px;
+	color: #fff;
+	background: -webkit-linear-gradient(top,rgba(0,0,0,0),rgba(0,0,0,0.3));
+}
+
+.book-h5 .book-h5__info{/*书籍文字信息*/
+	margin-left:100px;
+	padding-top:6px;
+	background:#fff;
+}
+.book-h5_title{/*书籍标题*/
+	margin-bottom:4px;
+	font:16px/17px a;
+	color:rgba(0,0,0,0.9);
+	overflow:hidden;
+	text-overflow:ellipsis;
+	white-space:nowrap;
+}
+.book-h5__author{
+	margin-top:8px;
+	font:12px/12px a;
+	color:rgb(0,0,0,0.7);
+	overflow:hidden;
+	text-overflow:ellipsis;
+	white-space:nowrap;
+}
+.book-h5__summary{/*书籍简介*/
+	margin:8px 0 0;
+	height:2.8em;
+	font:12px/1.4em a;
+	color:rgb(0,0,0,0.6);
+	overflow:hidden;
+	text-overflow:ellipsis;
+	white-space:nowrap;
+	display:-webkit-box;
+	-webkit-line-clamp:2;
+	-webkit-box-orient:vertical;
+}
+.book-h5__wrap{/*书籍标签容器*/
+	margin:10px;
+	padding-top:3px;
+	overflow:hidden;
+}
+.book-h5__tag{/*书籍标签*/
+	float:left;
+	margin:-3px 7px 0 0;
+	padding:3px 6px 2px;
+	max-width:6em;
+	font:10px/11px a;
+	color:#53ac7d;
+	border: 1px solid #53AC7D;
+	border-radius:3px;
+	overflow:hidden; 
+	text-overflow:ellipsis;
+	white-space:nowrap;
+}
+.book-h5__tag:last-child{
+	margin-right:0px;
+}
+.book-h5_no-img__order{/*无封面书籍排名序号*/
+	float:left;
+	margin-top:1px;
+	font:13px/13px a;
+	color:rgba(237,83,15,0.9);
+}
+.book-h5_no-img__info{
+	margin-left:27px;
+}
+.book-h5_no-img__title{
+	font:15px/15px a;
+	color:rgba(0,0,0,0.9);
+   background:#fff;  
+}
+/*index-hot.html 同index-recommend.html的*/
+/*index-male.html ==========*/
+.channel-h5__footer_next{
+	border-top:1px solid #f0f0f0;
+	overflow:hidden;
+}
+.channel-h5__footer_next>a{
+	float:left;/*可以用flex布局，也可以用float来做*/
+	width:50%;
+	padding:14px;
+	box-sizing:border-box;
+	font:13px/1.3em a;
+	color:rgba(0,0,0,0.9);
+	text-align:center;
+}
+.channel-h5__footer_next>a:first-child{
+	border-right:1px solid #f0f0f0;
+}
+
+/*index-female.html 同index-female.html的*/
+/*index-free.html==========*/
+.channel-group{
+	position:relative;
+}
+.channel-group__header{
+	position:relative;
+	padding:10px 14px;
+	border-bottom:1px solid #f0f0f0;
+	border-left:6px solid #ffab18;
+}
+.channel-group__title{
+	font-size:16px;
+	font-weight:normal;
+	color:#333;
+}
+.book-table{
+	padding:13px 14px 5px;
+	font-size:0px;/*inline-block元素之间是有空隙的，
+	会导致33%的设置无效，所以要将font-size设为0去掉空隙
+	但其实我实测是不这样设置也行，但是老师的会出问题(只能并排两个<li>)*/
+}
+.book-table li{
+	width:33%;
+	display:inline-block;
+	vertival-align:top;
+	line-height:1;
+	margin-bottom:8px;
+}
+.u-book{
+	width:86px;
+	position:relative;
+	overflow:hidden;
+}
+.book-cover{
+	position:relative;
+	width:86px;
+	height:113px;
+	background-color:#eeece9;
+	box-shadow:0px 6px 5px -3px #aaa;
+	border:1px solid #f0f0f0;
+	overflow:hidden;
+	border-bottom:none;
+}
+.book-cover img{
+	width:100%;
+	height:100%;
+}
+.title{
+	font-size:13px;
+	line-height:1.4em;
+	max-height:2.8em;
+	overflow:#8d8d8d;
+	margin-bottom:0px;
+	font-weight:400;
+}
+.u-tagRT{
+	position:absolute;
+	top:0px;
+	right:0px;
+	line-height:1.4;
+	background-color:#ef6c2c;
+	color:#fff;width:100%;
+	font-size:1.4em;
+	text-align:center;
+	-webkit-transform-origin:top center;
+	-webkit-transform:transloateX(50%) rotate(45deg) translateY(50%) scale(0.8);
+
+}
+.u-tagT.freefiction{background-color:#49ab3f;}
+.u-tagT.freefiction:before{content:'\9650\514d'}
+.channel-group__footer{
+	display:block;
+	border-top:1px solid #f0f0f0;
+	border-bottom:10px solid #f0f0f0;
+	text-align:center;
+	font-size:14px; 
+	padding:19px 0;
+}
+/*index-bottom.html==========*/
+.banner-h5__list{
+    padding: 10px 10px 0px;
+    }
+    .banner-h5__cover{
+        width:50%;
+        float:left;
+        padding:3px 3px 16px;
+        box-sizing: border-box;
+        border-bottom: 1px solid #f0f0f0;
+    }
+    .banner-h5__cover img {
+    position: relative;
+    width: 100%;
+    border-radius: 1px;
+    }
+    

@@ -8,19 +8,20 @@
         <title>书城首页</title>
     </head>
     <body>
-      <div id="root">
-            <%include include/header.html %>
-            <div>
-                <% include include/index-top.html %>
-                <% include include/index-hot.html %>
-                <% include include/index-recommend.html %>
-                <% include include/index-female.html %>
-                <% include include/index-male.html %>
-                <% include include/index-free.html %>
-                <% include include/index-bottom.html %>
-            </div>    
+        <div id="root" style="width:734px">
+            <div class="container-wrap">
+                <%include include/header.html %>
+                <div class="container-scoll">
+                    <% include include/index-top.html %>
+                    <% include include/index-hot.html %>
+                    <% include include/index-recommend.html %>
+                    <% include include/index-female.html %>
+                    <% include include/index-male.html %>
+                    <% include include/index-free.html %>
+                    <% include include/index-bottom.html %>
+                </div>    
+            </div>
         </div>
-    
     </body>
     <script src="../static/script/vue.js"></script>
 	<script src="../static/script/zepto.js"></script>
