@@ -1,1 +1,76 @@
-index-top首页顶部
+<style type="text/css">
+    .top-home{
+        background:#fff;
+        border-bottom:10px solid #f5f5f5;
+    }
+    .top-home__search{
+        margin:10px 13px;
+        padding:1px 0 0 30px;
+        font:11px/33px a;/*是属性的缩写:分别是字体大小，行高，字体类型(Arial)*/
+        color:rgba(0,0,0,0.4);/*相当于黑色字体加个透明度就是浅灰色的了，也可以直接取灰色*/
+        background:url(/static/img/search.png) no-repeat 8px center;/*搜索图标，图标可以通过设为背景的形式实现，或者直接在元素里添加<img>标签*/
+        background-size:14px;
+        border:1px solid #f5f5f5;
+        border-radius:2px;
+    }
+    .cover{
+        width:100%
+        }
+    .top-home__btn{
+        margin:14px 0 4px;
+        display:-webkit-box;/*box-flex属性，根据父元素动态按比例确定该元素的大小 http://www.w3school.com.cn/cssref/pr_box-flex.asp*/
+        width:100%;
+    }
+    .top-home__btn li {
+        line-height:2.4;
+        font-size:12px;
+        text-align:center;
+        -webkit-box-flex:1;
+    }
+    .top-home__icon{
+        display:block;
+        margin:0 auto;
+        height:22px;
+        width:22px;
+        background-position:center;
+    }
+</style>
+<section class="top-home"><!--首页的上部-->
+    <a href="/search"><!--搜索框-->
+        <div class="top-home__search">输入书名/作者/关键字</div>
+    </a>
+    <div class="slider-banner"><!--活动框-->
+        <div>
+            <a href="http://dushu.xiaomi.com/#page=topic&type=fiction&id=11452&_t=index.0.sld.0&&from=main">
+                <img class="cover" src="/static/img/slider-banner-cover.jpg"/>
+            </a>
+        </div>
+    </div>
+    <ul class="top-home__btn"><!--频道列表-->
+        <li>
+            <a href="/male">
+                <img class="top-home__icon" src="/static/img/male.png"/>
+                <p class="top-home__des">男生</p>
+            </a>
+        </li>
+        <li>
+            <a href="/female">
+                <img class="top-home__icon" src="/static/img/female.png"/>
+                <p class="top-home__des">男生</p>
+            </a>
+        </li>
+        <li>
+            <a href="/category">
+                <img class="top-home__icon" src="/static/img/category.png"/>
+                <p class="top-home__des">分类</p>
+            </a>
+        </li>
+        <li>
+            <a href="/rank">
+                <img class="top-home__icon" src="/static/img/rank.png"/>
+                <p class="top-home__des">排行</p>
+            </a>
+        </li>
+
+    </ul>
+</section>
