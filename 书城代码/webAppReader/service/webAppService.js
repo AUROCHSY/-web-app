@@ -1,7 +1,7 @@
 var fs = require('fs');//添加访问文件系统功能
 
 /*10.4为网站添加Mock数据接口*/
-exports.get_test_data = function(){//Node.js的语法
+exports.get_test_data = function(){//定义get_test_data函数,Node.js的语法
 	var content = fs.readFileSync('./mock/testData.json','utf-8');
 	return content;
 }

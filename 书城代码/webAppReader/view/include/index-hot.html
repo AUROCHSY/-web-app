@@ -3,66 +3,18 @@
         <p class="channel-h5__title">本周最火</p>
     </div>
     <ul class="list-h5"><!--书籍列表-->
-        <li><!--带封面书籍-->
+        <li v-for="item in hot" v-if="$index<5"><!--带封面书籍-->
             <div class="book-h5">
                 <div class="book-h5__cover">
-                    <img src="/static/img/book-cover1.jpg"/>
+                    <img alt="{{item.title}}" v-bind:src="item.cover"/>
                     <p class="book-h5__finish">完结</p> 
                 </div>
                 <div class="book-h5__info">
-                    <p class="book-h5__title">书名</p>
-                    <p class="book-h5__author">作者</p>
-                    <p class="book-h5__summary">简介</p>
+                    <p class="book-h5__title">{{item.title}}</p>
+                    <p class="book-h5__author">{{item.authors}}</p>
+                    <p class="book-h5__summary">{{item.summary}}</p>
                     <div class="book-h5__wrap">
-                        <div class="book-h5__tag">标签</div>
-                    </div>
-                </div>
-            </div>
-        </li>
-        <li><!--带封面书籍-->
-            <div class="book-h5">
-                <div class="book-h5__cover">
-                    <img src="/static/img/book-cover1.jpg"/>
-                    <p class="book-h5__finish">完结</p> 
-                </div>
-                <div class="book-h5__info">
-                    <p class="book-h5__title">书名</p>
-                    <p class="book-h5__author">作者</p>
-                    <p class="book-h5__summary">简介</p>
-                    <div class="book-h5__wrap">
-                        <div class="book-h5__tag">标签</div>
-                    </div>
-                </div>
-            </div>
-        </li>
-        <li><!--带封面书籍-->
-            <div class="book-h5">
-                <div class="book-h5__cover">
-                    <img src="/static/img/book-cover1.jpg"/>
-                    <p class="book-h5__finish">完结</p> 
-                </div>
-                <div class="book-h5__info">
-                    <p class="book-h5__title">书名</p>
-                    <p class="book-h5__author">作者</p>
-                    <p class="book-h5__summary">简介</p>
-                    <div class="book-h5__wrap">
-                        <div class="book-h5__tag">标签</div>
-                    </div>
-                </div>
-            </div>
-        </li>
-        <li><!--带封面书籍-->
-            <div class="book-h5">
-                <div class="book-h5__cover">
-                    <img src="/static/img/book-cover1.jpg"/>
-                    <p class="book-h5__finish">完结</p> 
-                </div>
-                <div class="book-h5__info">
-                    <p class="book-h5__title">书名</p>
-                    <p class="book-h5__author">作者</p>
-                    <p class="book-h5__summary">简介</p>
-                    <div class="book-h5__wrap">
-                        <div class="book-h5__tag">标签</div>
+                        <div class="book-h5__tag" v-for="tag in item.tags">{{tag}}</div>
                     </div>
                 </div>
             </div>
