@@ -2,10 +2,10 @@
     <!--移动端的动画切记不要通过操作dom结点来实现，性能和效果都差，要用CSS实现-->
     <div class="Swipe-tab Swipe-tab_2 f-cb"><!--为了更好地复用，class可以多些点，共同决定这个样式-->
         <!--这几个样式都是自己定义的，Swipe-tab是通用的标签样式，Wwipe-tab-2表示只有两个标签时的样式，f-cb表示需要清除浮动的样式-->
-        <a class="Swipe-tab__on" href="javascript:"></a><!--书城标签，文字通过CSS样式用unicode编码显示了-->
-        <a href="javascript:"></a><!--书架-->
-        <i style="width:277px;transition-duration:0s;transform:translate3d(0px,0px,0px)"></i><!--表示选中状态的下划线-->
-            <!--需要被js动态操作的属性写到style里，不需要被操作的酒不写-->
+        <a v-on:click="tabSwitch(0)" class="{{ tab_1_class }}" href="javascript:"></a><!--书城标签，文字通过CSS样式用unicode编码显示了-->
+        <a v-on:click="tabSwitch(1)" class="{{ tab_2_class }}" href="javascript:"></a><!--书架-->
+        <i style="width:277px;transition-duration:{{header_duration}}s; transform:translate3d({{header_position}}px,0px,0px)"></i><!--表示选中状态的下划线-->
+            <!--需要被js动态操作的属性写到style里，不需要被操作的就不写-->
     </div>
     <em class="header-user"></em><!--签到按钮(带图案)-->
     <em class="header-checkin"></em><!--用户按钮(带图案)-->

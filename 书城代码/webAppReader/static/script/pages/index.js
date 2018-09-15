@@ -1,6 +1,6 @@
 //连通界面与数据接口
 $.get('/ajax/index',function(d){//接口的的数据返回格式可以通过打debugger在develop tool上查看 
-	debugger; 
+	//debugger; 
 	new Vue({
 		el:'#app',//绑定作用域:id为app的元素内(包含子元素) 
 		data:{/*首页服务端数据绑定*/
@@ -12,7 +12,31 @@ $.get('/ajax/index',function(d){//接口的的数据返回格式可以通过打d
 			male:d.items[4].data.data,
 			free:d.items[5].data.data,
 			topic:d.items[6].data.data,//专题
-
+			duration:0,
+			position:0,
+			header_position:0,
+			header_duration:0,
+			tab_1_class:'Swipe-tab__on',
+			tab_2_class:''
+		},
+		methods:{
+			tabSwitch:function(pos){
+				//debugger;
+				this.duration=0.5;
+				this.header_duration=0.5;
+				if(pos==0){
+					this.position=0;
+					this.header_position=0;
+					this.tab_1_class="Swipe-tab__on";
+					this.tab_2_class="";
+				}
+				else{
+					this.position=(-734);
+					this.header_position=277;
+					this.tab_1_class="";
+					this.tab_2_class="Swipe-tab__on";
+				}
+			}
 		}
 	})
 },'json')//指定接口的数据返回格式 

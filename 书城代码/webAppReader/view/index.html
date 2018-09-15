@@ -1,17 +1,18 @@
 <html>
-    <head>
-        <meta charset="utf-8">
-        <meta name="viewport" content="width=device-width,initial-scale=1,user-scalable=no">
-        <meta name="format-detection" content="telephone=no"><!--不智能识别电话号-->
-        <link rel="stylesheet" type="text/css" href="/static/css/all.css"><!--全部样式集中文件-->
-        <link rel="stylesheet" type="text/css" href="/static/css/reset.css"><!--基础通用样式-->
-        <title>书城首页</title>
-    </head>
-    <body>
-        <div id="root" style="width:734px">
-            <div class="container-wrap" id="app">
-                <%include include/header.html %>
-                <div class="container-scoll">
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width,initial-scale=1,user-scalable=no">
+    <meta name="format-detection" content="telephone=no"><!--不智能识别电话号-->
+    <link rel="stylesheet" type="text/css" href="/static/css/all.css"><!--全部样式集中文件-->
+    <link rel="stylesheet" type="text/css" href="/static/css/reset.css"><!--基础通用样式-->
+    <title>书城首页</title>
+</head>
+<body>
+    <div  id="app" style="width:734px;overflow:hidden"><!--只显示734px宽的部分-->
+        <%include include/header.html %>
+        <div style="width: 1468px;transition-duration: {{duration}}s;transform: translate3d({{position}}px,0px,0px);"><!--加一个宽为734px *2的透明元素，以把界面撑开为1468px的大小，右边放书架模块-->
+            <div class="container-wrap" style="width:734px;float:left;">
+                <div class="container-scoll top:0px">
                     <% include include/index-top.html %>
                     <% include include/index-hot.html %>
                     <% include include/index-recommend.html %>
@@ -21,10 +22,14 @@
                     <% include include/index-bottom.html %>
                 </div>    
             </div>
+            <div style="width:734px;float:left;">
+                <% include include/index-shelf.html %>
+            </div>
         </div>
-    </body>
-    <script src="../static/script/vue.js"></script>
-	<script src="../static/script/zepto.js"></script>
-	<script src="../static/script/pages/index.js"></script>
-    <!--可以通过访问页面，在控制台上输入相应名称如vue,zepto等查看是否成功引入文件-->
+    </div>
+</body>
+<script src="../static/script/vue.js"></script>
+<script src="../static/script/zepto.js"></script>
+<script src="../static/script/pages/index.js"></script>
+<!--可以通过访问页面，在控制台上输入相应名称如vue,zepto等查看是否成功引入文件-->
 </html>
