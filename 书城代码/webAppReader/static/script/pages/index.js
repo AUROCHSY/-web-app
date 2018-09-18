@@ -12,11 +12,11 @@ $.get('/ajax/index',function(d){//接口的的数据返回格式可以通过打d
 			male:d.items[4].data.data,
 			free:d.items[5].data.data,
 			topic:d.items[6].data.data,//专题
-			duration:0,
-			position:0,
-			header_position:0,
+			duration:0,//商城书架动画切换持续时间
+			position:0,//主体页位置控制
+			header_position:0,//顶栏选中光标头部位置控制
 			header_duration:0,
-			tab_1_class:'Swipe-tab__on',
+			tab_1_class:'Swipe-tab__on',//用于动态控制两个标签样式的类
 			tab_2_class:''
 		},
 		methods:{

@@ -168,8 +168,8 @@ app.use(controller.get('/category',function*(){
 app.use(controller.get('/book',function*(){
     this.set('Cache-Control','no-cache');//设置HTTP返回头，不缓存内容
 	var params=querystring.parse(this.req._parsedUrl.query);//读取地址栏url参数并转为结构体格式
-	var id=params.id;//赋值给本地变量
-	this.body=yield render('book',{bookId:id});//将参数传入模板
+	var bookId=params.id;//赋值给本地变量
+	this.body=yield render('book',{bookId:bookId});//将参数传入模板
     //yield语句 是es6的语言特性generator函数，用于完成异步函数的执行，阮一峰的博客介绍得比较详细
     //render的参数1是模板(html文件)的名字,在初始化render时设置的路径里寻找，参数2是传入模板的"变量:变量值"键值对
 

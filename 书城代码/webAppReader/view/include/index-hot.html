@@ -2,22 +2,24 @@
     <div class="channel-h5__header"><!--本周最火顶栏-->
         <p class="channel-h5__title">本周最火</p>
     </div>
-    <ul class="list-h5"><!--书籍列表-->
+    <ul class="list-h5"><!--书籍列表-->   
         <li v-for="item in hot" v-if="$index<5"><!--带封面书籍-->
-            <div class="book-h5">
-                <div class="book-h5__cover">
-                    <img alt="{{item.title}}" v-bind:src="item.cover"/>
-                    <p class="book-h5__finish">完结</p> 
-                </div>
-                <div class="book-h5__info">
-                    <p class="book-h5__title">{{item.title}}</p>
-                    <p class="book-h5__author">{{item.authors}}</p>
-                    <p class="book-h5__summary">{{item.summary}}</p>
-                    <div class="book-h5__wrap">
-                        <div class="book-h5__tag" v-for="tag in item.tags">{{tag}}</div>
+            <a href="/book?id={{item.fiction_id}}">
+                <div class="book-h5">
+                    <div class="book-h5__cover">
+                        <img alt="{{item.title}}" v-bind:src="item.cover"/>
+                        <p class="book-h5__finish">完结</p> 
+                    </div>
+                    <div class="book-h5__info">
+                        <p class="book-h5__title">{{item.title}}</p>
+                        <p class="book-h5__author">{{item.authors}}</p>
+                        <p class="book-h5__summary">{{item.summary}}</p>
+                        <div class="book-h5__wrap">
+                            <div class="book-h5__tag" v-for="tag in item.tags">{{tag}}</div>
+                        </div>
                     </div>
                 </div>
-            </div>
-        </li>
+            </a>
+        </li>    
     </ul>
 </section>

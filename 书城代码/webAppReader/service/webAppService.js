@@ -85,6 +85,11 @@ exports.get_category_data = function(){//Node.js的语法
 exports.get_book_data = function(id){//Node.js的语法
 	if(!id){//如果传过来的id是空的，设为默认书籍
 		id="18218";
+		if(fs.existsSync('./mock/book/' + id + '.json')){
+			return fs.readFileSync('./mock/book/' + id + '.json', 'utf-8');
+		}else{
+			return fs.readFileSync('./mock/book/18218.json', 'utf-8');
+		}
 	}
 	
 	var content = fs.readFileSync('./mock/book/'+id+'.json','utf-8');
