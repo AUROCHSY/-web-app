@@ -85,14 +85,30 @@ exports.get_category_data = function(){//Node.js的语法
 exports.get_book_data = function(id){//Node.js的语法
 	if(!id){//如果传过来的id是空的，设为默认书籍
 		id="18218";
-		if(fs.existsSync('./mock/book/' + id + '.json')){
-			return fs.readFileSync('./mock/book/' + id + '.json', 'utf-8');
-		}else{
-			return fs.readFileSync('./mock/book/18218.json', 'utf-8');
-		}
+	}
+	if(fs.existsSync('./mock/book/' + id + '.json')){
+		return fs.readFileSync('./mock/book/' + id + '.json', 'utf-8');
+	}else{
+		return fs.readFileSync('./mock/book/18218.json', 'utf-8');
 	}
 	
 	var content = fs.readFileSync('./mock/book/'+id+'.json','utf-8');
 	return content;
 }
 
+/*以下为阅读器相关的代码 */
+//阅读器获取章节数据
+exports.get_chapter_data = function(){//Node.js的语法
+	var content = fs.readFileSync('./mock/reader/chapter.json','utf-8');//在创建路由的时候/开头代表根目录也就是app.js所在的那级目录，这里的根目录则是磁盘的根目录
+	return content;	
+}
+
+//
+exports.get_chapter_content_data=function(id){
+if(!id)
+	{//如果传过来的id是空的，设为默认书籍
+		id="1";
+	}
+	var content = fs.readFileSync('./mock/reader/data/data'+id+'.json','utf-8');
+	return content;	
+}
